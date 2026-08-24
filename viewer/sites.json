@@ -1,0 +1,50 @@
+[
+  {
+    "id": "shalomus",
+    "name": "Maine Lake",
+    "url": "https://shalomus.lazy.vacations/",
+    "note": "",
+    "hidden": false,
+    "headerColor": "#075a78"
+  },
+  {
+    "id": "nyc-midtown",
+    "name": "NYC Place",
+    "url": "https://nyc-midtown.lazy.vacations/",
+    "note": "",
+    "hidden": false,
+    "headerColor": "#ff2e2e"
+  },
+  {
+    "id": "florida",
+    "name": "Florida Paradise",
+    "url": "https://florida.lazy.vacations/",
+    "note": "",
+    "hidden": false,
+    "headerColor": "#80b4f0"
+  },
+  {
+    "id": "kawaii",
+    "name": "Kawaii Beach",
+    "url": "https://kawaii.lazy.vacations/",
+    "note": "",
+    "hidden": false,
+    "headerColor": "#00c7ba"
+  },
+  {
+    "id": "virginia-cottage",
+    "name": "Virginia Cain",
+    "url": "https://virginia-cottage.lazy.vacations/",
+    "note": "",
+    "hidden": false,
+    "headerColor": "#00ad4b"
+  },
+  {
+    "id": "capecod",
+    "name": "Cape Cod Fall",
+    "url": "https://capecod.lazy.vacations/",
+    "note": "",
+    "hidden": false,
+    "headerColor": "#f4b13e"
+  }
+]

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lazy — site viewer admin</title>
+<link rel="stylesheet" href="./css/viewer.css">
+</head>
+<!--
+  THE LIST, AND NOTHING ELSE. This page edits sites.json and cannot save it:
+  it is a static file served by a dumb file server, with no backend behind it
+  and no write access to the repo. So it holds your work in localStorage while
+  you edit and hands you the finished file — you commit it.
+
+  Everything it can do is deliberately reversible before that commit: Revert
+  throws the draft away and goes back to what is actually in the repo.
+-->
+<body>
+
+<div class="la-preview">
+  <div class="la-toolbar">
+    <div class="la-row-2">
+      <span class="lv-logo" id="lv-logo" aria-hidden="true"></span>
+      <span class="la-title">Site list</span>
+      <span class="la-hint" id="lv-state"></span>
+    </div>
+    <div class="la-row-2">
+      <button class="la-btn la-btn--mini" onclick="LVAdmin.revert()">Revert</button>
+      <button class="la-btn la-btn--mini" onclick="LVAdmin.copy()" id="lv-copy">Copy JSON</button>
+      <button class="la-btn la-btn--mini la-btn--coral" onclick="LVAdmin.download()">Download sites.json</button>
+    </div>
+  </div>
+
+  <div class="lv-admin">
+    <div class="lv-admin__inner">
+      <p class="la-hint">
+        Order here is the order the viewer shows — it is what ‹ › steps through.
+        Hidden sites stay in the file and never reach the viewer.
+        Nothing is saved to the repo from this page — download the file and commit it.
+      </p>
+
+      <div id="lv-list"></div>
+
+      <div class="la-row-2">
+        <button class="la-btn la-btn--mini la-btn--coral" onclick="LVAdmin.add()">Add a site</button>
+        <a class="la-btn la-btn--mini" href="./index.html" target="_blank" rel="noopener">Open the viewer</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="./js/sites.js"></script>
+<script src="./js/admin.js"></script>
+</body>
+</html>

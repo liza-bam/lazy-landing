@@ -1,0 +1,459 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Bitter:wght@500;600;700&family=Lato:wght@400;700;900&display=swap');
+
+/* ============================================================
+   SITE VIEWER — chrome copied from the Lazy builder.
+
+   Every token and every class body below is lifted verbatim from
+   lazy-project/app/css/lazyapp.css so the viewer's bar is the SAME
+   bar as the editor's, minus the editor. Nothing here is invented:
+   if a control needs a value, it comes from that file. Additions
+   specific to the viewer are marked VIEWER and kept to a minimum.
+   ============================================================ */
+:root{
+  /* colour */
+  --la-paper:  #ffffff;
+  --la-bg:     #f6f5f2;
+  --la-canvas: #808080;   /* preview canvas behind the device frame */
+  --la-ink:    #1a1a1a;
+  --la-line:   #bfbaac;
+  --la-teal:   #33c4bf;
+  --la-coral:  #ff6f5e;
+  --la-on-coral:   #1a1a1a;
+  --la-hover:       color-mix(in oklab, var(--la-ink), var(--la-paper) 94%);
+  --la-selected:    color-mix(in oklab, var(--la-teal), var(--la-paper) 60%);
+  --la-on-selected: #12403c;
+  --la-disabled-fade: .45;
+  --la-press:  16%;
+  /* type */
+  --la-font:        'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --la-text:        16px;
+  --la-text-title:  15px;
+  --la-text-propname: 16px;
+  --la-propname-max: 18ch;
+  --la-text-label:  12px;
+  --la-track-title: .3px;
+  --la-track-label: .8px;
+  --la-text-field:  15px;
+  --la-text-hint:   var(--la-text);
+  --la-weight:      600;
+  --la-weight-body: 400;
+  --la-weight-strong: 800;
+  --la-track:       .5px;
+  /* form */
+  --la-frame:       1px;
+  --la-radius:      6px;
+  --la-pad-btn:     9px 10px;
+  --la-pad-input:   9px 11px;
+  --la-muted:       color-mix(in oklab, var(--la-ink), var(--la-paper) 30%);
+  --la-hint:        color-mix(in oklab, var(--la-ink), var(--la-paper) 48%);
+  --la-placeholder: color-mix(in oklab, var(--la-ink), var(--la-paper) 60%);
+  --la-trans:       .1s ease;
+  /* space */
+  --la-s1: 4px;
+  --la-s2: 8px;
+  --la-s3: 12px;
+  --la-s4: 16px;
+  --la-s5: 24px;
+  --la-control-h:  40px;
+  --la-control-h-sm: 32px;
+  --la-glyph:      24px;
+  --la-glyph-row:  18px;
+  --la-ring-w:        2px;
+  --la-ring-gap:      2px;
+  --la-stack-gap:     2px;
+  --la-toolbar-h: calc(var(--la-control-h) + var(--la-s2) * 2 + var(--la-frame));
+  --la-z-tip:        400;
+  /* ============================================================
+     VIEWER — the marketing surface.
+
+     The builder's chrome is deliberately the quietest thing on screen, because
+     everything it frames is a host's design. This viewer sits on the MARKETING
+     page, where the opposite is true: it has to look like the page it is embedded
+     in. So the greys below stay for the admin list, and the bar takes the brand's
+     own ink, mint and coral, its serif and its caps face.
+
+     Every colour here is mixed from --la-teal / --la-coral / --la-paper, so the bar
+     cannot drift from the accents the rest of the product uses.
+     ============================================================ */
+  --lv-ink:        #12403c;   /* deep teal — the brand's reading ink; the same value the kit
+                                 already uses for ink on mint */
+  --lv-ink-soft:   color-mix(in oklab, var(--lv-ink), var(--la-paper) 45%);  /* an icon at rest */
+  --lv-hair:       color-mix(in oklab, var(--lv-ink), var(--la-paper) 88%); /* the bar's one edge — a hairline, not a colour */
+  --lv-track:      color-mix(in oklab, var(--lv-ink), var(--la-paper) 80%);  /* the switch, off */
+
+  --lv-font-display: 'Bitter', Georgia, serif;        /* the site's name — the brand's slab */
+  --lv-font-label:   'Lato', system-ui, sans-serif;   /* caps labels — the brand's signage face */
+
+  /* SMALL. The bar is a strip on someone else's page, so its controls are sized to be
+     read rather than pressed hard: bare icons at 18px in a 28px target, and one pill. */
+  --lv-bar-h:      44px;
+  --lv-icon:       18px;
+  --lv-tap:        28px;
+  --lv-logo-h:     18px;
+  --lv-text-name:  13px;
+  --lv-text-label: 10px;
+
+  /* The device body. One ink, one edge, two radii — the screen must curve LESS than
+     the body holding it or the two corners fight. */
+  --lv-body:          var(--lv-ink);
+  --lv-bezel:         10px;
+  --lv-body-radius:   34px;
+  --lv-screen-radius: 24px;
+  --lv-speaker-w:     44px;
+  --lv-speaker-h:     4px;
+  --lv-device-gap:    16px;   /* the air a device stands in */
+
+  /* The blurred ground. Bleed and zoom together keep the blur's own soft edge outside
+     the surface, which is the difference between "frosted" and "a blurry rectangle". */
+  --lv-bg-blur:       48px;
+  --lv-bg-sat:        1.6;
+  --lv-bg-zoom:       1.12;
+  --lv-bg-fade:       .9;
+  --lv-bg-bleed:      80px;
+  --lv-veil-clear:    58%;    /* how much of the blur the veil lets through */
+  --lv-veil-blur:     blur(6px);
+
+  /* The handset's furniture. Real proportions, because the whole point is that a
+     visitor recognises their own phone at a glance. */
+  --lv-ios-status-h:   50px;
+  --lv-ios-status-pad: 30px;
+  --lv-ios-time:       15px;
+  --lv-ios-browser-h:  84px;
+  --lv-ios-browser-pad:12px;
+  --lv-ios-pill-h:     44px;
+  --lv-ios-host:       15px;
+  /* THE BROWSER BAR IS GLASS. It floats over the page — over the hero, which is what
+     is under it when a site opens — so it is a tint plus a blur of whatever it covers,
+     never a solid strip that hides a band of the design. */
+  --lv-ios-bar:        rgb(28 28 30 / .62);
+  --lv-ios-chip:       rgb(255 255 255 / .16);
+  --lv-ios-blur:       blur(22px) saturate(180%);
+  --lv-ios-island-w:   96px;
+  --lv-ios-island-h:   28px;
+  --lv-ios-home-w:     136px;
+  --lv-ios-home-h:     5px;
+}
+
+*, *::before, *::after { box-sizing:border-box; }
+html, body { height:100%; }
+body {
+  margin:0; font-family:var(--la-font); color:var(--la-ink); background:transparent;
+  display:flex; flex-direction:column; overflow:hidden;
+}
+
+/* Keyboard focus — one ring for every control in the kit. */
+:focus-visible { outline:var(--la-ring-w) solid var(--la-teal); outline-offset:var(--la-ring-gap); }
+
+.la-title { font-family:var(--la-font); font-weight:var(--la-weight-strong); font-size:var(--la-text-title); text-transform:uppercase; letter-spacing:var(--la-track-title); color:var(--la-ink); }
+.la-hint { font-family:var(--la-font); font-size:var(--la-text-hint); line-height:1.4; color:var(--la-hint); }
+
+.la-btn {
+  font-family:var(--la-font); font-weight:var(--la-weight); font-size:var(--la-text-label); text-transform:uppercase; letter-spacing:var(--la-track);
+  background:var(--la-paper); color:var(--la-ink);
+  border:var(--la-frame) solid var(--la-line);
+  border-radius:var(--la-radius);
+  padding:var(--la-pad-btn); cursor:pointer; transition:border-color var(--la-trans), background var(--la-trans), color var(--la-trans);
+  display:inline-flex; align-items:center; justify-content:center; gap:var(--la-s2); line-height:1;
+  min-height:var(--la-control-h); box-sizing:border-box;
+  text-decoration:none;
+}
+.la-btn:hover  { background:var(--la-hover); }
+.la-btn[aria-pressed="true"] { background:var(--la-selected); color:var(--la-on-selected); border-color:var(--la-selected); }
+.la-btn[aria-pressed="true"]:hover { background:color-mix(in oklab, var(--la-selected), white var(--la-press)); color:var(--la-on-selected); border-color:var(--la-selected); }
+.la-btn--coral       { background:var(--la-coral); color:var(--la-on-coral); border-color:var(--la-coral); }
+.la-btn--coral:hover { background:color-mix(in oklab, var(--la-coral), black var(--la-press)); border-color:var(--la-coral); color:var(--la-on-coral); }
+.la-btn:disabled, .la-btn[disabled] {
+  background:var(--la-paper); color:var(--la-muted);
+  border-color:color-mix(in oklab, var(--la-muted), var(--la-paper) 62%);
+  opacity:var(--la-disabled-fade);
+  cursor:not-allowed;
+}
+.la-btn:disabled:hover, .la-btn[disabled]:hover { border-color:var(--la-muted); }
+.la-btn--mini   { font-size:var(--la-text-label); padding:var(--la-s1) var(--la-s3); }
+.la-btn--arrow  { padding:0; width:var(--la-control-h); flex-shrink:0; }
+.la-btn--glyph  { padding:0; width:var(--la-control-h); flex-shrink:0; }
+.la-btn--icon   { padding:0; width:var(--la-control-h-sm); min-height:var(--la-control-h-sm);
+                  flex-shrink:0; font-size:var(--la-glyph-row); line-height:1; }
+.la-btn--icon svg { height:var(--la-glyph-row); width:auto; }
+.la-toolbar .la-btn svg { width:var(--la-glyph); height:var(--la-glyph); }
+
+.la-tabs { display:flex; gap:var(--la-s1); align-items:stretch; }
+.la-tab {
+  flex:1; padding:var(--la-pad-btn); min-height:var(--la-control-h);
+  display:inline-flex; align-items:center; justify-content:center; line-height:1;
+  font-family:var(--la-font); font-size:var(--la-text-label); font-weight:var(--la-weight);
+  text-transform:uppercase; letter-spacing:var(--la-track);
+  color:var(--la-muted); background:var(--la-paper);
+  border:var(--la-frame) solid var(--la-line); border-radius:var(--la-radius);
+  cursor:pointer; transition:color var(--la-trans), background var(--la-trans), border-color var(--la-trans);
+}
+.la-tab:hover { color:var(--la-ink); background:var(--la-hover); }
+.la-tab[aria-selected="true"] { color:var(--la-on-selected); background:var(--la-selected); border-color:var(--la-selected); }
+/* VIEWER — Fit/100% sit in a bar, not a pane: they take their own width instead of
+   splitting the row. Same treatment, no growth. */
+.la-viewtabs .la-tab { flex:0 0 auto; }
+
+.la-row   { display:flex; align-items:center; gap:var(--la-s1); }
+.la-row-2 { display:flex; flex-direction:row; align-items:center; gap:var(--la-s2); }
+
+.la-preview { flex:1; min-width:0; display:flex; flex-direction:column; background:transparent; }
+.la-toolbar { height:var(--la-toolbar-h); box-sizing:border-box; display:flex; align-items:center; justify-content:space-between; gap:var(--la-s3); padding:var(--la-s2) var(--la-s4); background:var(--la-paper); border-bottom:var(--la-frame) solid var(--la-line); flex-shrink:0; }
+.la-toolbar > * { flex-shrink:0; }
+
+/* ---- THE BAR ----
+   One strip: the mark, which is also the way back to lazy.vacations; the site's
+   name between two arrows; then how you are looking at it. No dropdown — with a
+   handful of sites the arrows ARE the navigation, and a menu on a marketing page
+   is a control the visitor has to learn before they can look at anything.       */
+.lv-bar {
+  height:var(--lv-bar-h); box-sizing:border-box; flex-shrink:0;
+  display:flex; align-items:center; justify-content:space-between; gap:var(--la-s4);
+  padding:0 var(--la-s4);
+  background:var(--la-paper);
+  border-bottom:1px solid var(--lv-hair);
+}
+.lv-bar > * { flex-shrink:0; }
+.lv-group { display:flex; align-items:center; gap:var(--la-s2); }
+
+/* THE MARK IS THE LINK — and only the mark. No pill, no fill, no box: on a bar made
+   of bare marks a button would be the one boxed thing on it. Coral, because that is
+   the brand's own accent and the wordmark is the one place it belongs here. */
+.lv-brand {
+  display:inline-flex; align-items:center;
+  color:var(--la-coral); text-decoration:none; flex-shrink:0;
+  padding:0 var(--la-s1);
+  transition:color var(--la-trans);
+}
+.lv-brand:hover { color:color-mix(in oklab, var(--la-coral), black var(--la-press)); }
+.lv-brand svg { height:var(--lv-logo-h); width:auto; display:block; }
+
+/* The site's name, in the brand's slab. Capped so a long one ellipsizes rather than
+   pushing the controls off the right edge of a narrow embed. */
+.lv-name {
+  font-family:var(--lv-font-display); font-weight:600; font-size:var(--lv-text-name);
+  letter-spacing:.06em; text-transform:uppercase; color:var(--lv-ink);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:22ch;
+  padding:0 var(--la-s1);
+}
+
+/* COLOURED MARKS, NOT BUTTONS. Every control on this bar is the drawing alone —
+   no fill, no border, no box. Colour carries the state: soft teal at rest, deep
+   teal under the pointer, coral when it is the one that is on. */
+.lv-icon {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:var(--lv-tap); height:var(--lv-tap); padding:0;
+  background:none; border:0; border-radius:999px;
+  color:var(--lv-ink-soft); cursor:pointer;
+  transition:color var(--la-trans);
+}
+.lv-icon svg { width:var(--lv-icon); height:var(--lv-icon); display:block; }
+.lv-icon:hover { color:var(--lv-ink); }
+.lv-icon[aria-pressed="true"] { color:var(--la-coral); }
+.lv-icon:disabled { color:var(--lv-ink-soft); opacity:var(--la-disabled-fade); cursor:default; }
+
+/* FIT / 100% AS ONE SWITCH. Two tabs asked the visitor to compare two words before
+   pressing either; a switch has one state and one meaning — off fits the site to the
+   space, on shows it at its real size. */
+.lv-switch {
+  display:inline-flex; align-items:center; gap:var(--la-s2);
+  background:none; border:0; padding:0 0 0 var(--la-s2); cursor:pointer;
+  color:var(--lv-ink-soft);
+}
+.lv-switch:hover { color:var(--lv-ink); }
+.lv-switch__track {
+  position:relative; width:32px; height:18px; border-radius:999px;
+  background:var(--lv-track); transition:background var(--la-trans); flex-shrink:0;
+}
+.lv-switch__knob {
+  position:absolute; top:2px; left:2px; width:14px; height:14px; border-radius:50%;
+  background:var(--la-paper); transition:transform var(--la-trans);
+}
+.lv-switch[aria-checked="true"] .lv-switch__track { background:var(--la-coral); }
+.lv-switch[aria-checked="true"] .lv-switch__knob { transform:translateX(14px); }
+.lv-switch__label {
+  font-family:var(--lv-font-label); font-weight:700; font-size:var(--lv-text-label);
+  letter-spacing:.12em; text-transform:uppercase; color:inherit;
+}
+
+/* ---- the surface the framed site sits on ----
+   Mint, not the builder's neutral grey: this page is part of the marketing site, and
+   the site being shown should read as a card lying on it. */
+/* NO GROUND. The viewer paints nothing behind the site: whatever the page holding
+   the embed uses shows through wherever a narrower device leaves room. */
+.lv-surf { flex:1; min-height:0; background:transparent; overflow:auto; display:block; }
+.lv-surf[data-scale="fit"] { overflow:hidden; }
+/* A device stands in the middle of the space with a little air around it. A desktop
+   does not: it fills, because it is the window. */
+.lv-surf[data-device="phone"],
+.lv-surf[data-device="tablet"] {
+  position:relative;
+  display:flex; align-items:center; justify-content:center; padding:var(--lv-device-gap);
+}
+
+/* ---- the ground behind the device ----
+   The site again, blurred out of legibility and pushed past the edges so the blur has
+   no visible border, with a veil over it so the device still reads as the subject. */
+.lv-bg, .lv-veil { display:none; }
+.lv-surf[data-device="phone"] .lv-bg,
+.lv-surf[data-device="tablet"] .lv-bg,
+.lv-surf[data-device="phone"] .lv-veil,
+.lv-surf[data-device="tablet"] .lv-veil {
+  display:block; position:absolute; inset:calc(var(--lv-bg-bleed) * -1);
+  width:calc(100% + var(--lv-bg-bleed) * 2); height:calc(100% + var(--lv-bg-bleed) * 2);
+  border:0; pointer-events:none;
+}
+.lv-surf[data-device="phone"] .lv-bg,
+.lv-surf[data-device="tablet"] .lv-bg {
+  filter:blur(var(--lv-bg-blur)) saturate(var(--lv-bg-sat));
+  transform:scale(var(--lv-bg-zoom));
+  opacity:var(--lv-bg-fade);
+}
+/* The veil is the glass itself: a wash of paper over the blur, so a dark site does not
+   turn the page into a lightbox and a bright one does not shout past the device. */
+.lv-surf[data-device="phone"] .lv-veil,
+.lv-surf[data-device="tablet"] .lv-veil {
+  background:color-mix(in oklab, var(--la-paper), transparent var(--lv-veil-clear));
+  -webkit-backdrop-filter:var(--lv-veil-blur); backdrop-filter:var(--lv-veil-blur);
+}
+.lv-frame { display:block; border:0; background:var(--la-paper); }
+
+/* ---- THE DEVICE ----
+   A handset and a slate get a body around them; a desktop does not, because the
+   window you are already looking through IS the desktop. The body is one thin ink
+   edge and a speaker line — enough to say "phone" and nothing more. No notch, no
+   buttons, no chrome: this is a container for a site, not a picture of hardware. */
+.lv-device { position:relative; margin:0 auto; width:max-content; }
+.lv-device[data-device="desktop"] { width:auto; }
+.lv-device[data-device="desktop"] .lv-screen { border-radius:0; }
+
+/* The screen: the only thing that clips, and on a handset it is a column — status
+   bar, page, browser bar — rather than a single pane. */
+.lv-screen { position:relative; overflow:hidden; display:flex; flex-direction:column; }
+
+/* ---- the handset's own UI ----
+   Off everywhere but the phone. A slate and a desktop are not held in one hand and do
+   not carry this furniture; drawing it there would be decoration pretending to be a
+   device. */
+.lv-ios { display:none; flex-shrink:0; }
+.lv-device[data-device="phone"] .lv-ios { display:flex; align-items:center; }
+
+/* THE STATUS BAR IS THE SITE'S HEADER, CONTINUED. On a real handset the strip above
+   the page carries the page's own colour, which is why it reads as one surface rather
+   than as furniture sitting on top of a website. The colour is the site's --header,
+   stated per site in sites.json; with none stated it falls back to paper. */
+.lv-ios--status {
+  position:relative;
+  height:var(--lv-ios-status-h); padding:0 var(--lv-ios-status-pad);
+  justify-content:space-between;
+  background:var(--lv-status-bg, var(--la-paper));
+  color:var(--lv-status-ink, var(--lv-ink));
+  font-family:var(--la-font); font-weight:700; font-size:var(--lv-ios-time);
+  letter-spacing:.2px;
+}
+/* The island. Always the same black whatever the header behind it — it is a hole in
+   the screen, not a painted shape, and a hole does not take the page's colour. */
+.lv-ios__island {
+  position:absolute; left:50%; top:50%; transform:translate(-50%, -50%);
+  width:var(--lv-ios-island-w); height:var(--lv-ios-island-h);
+  border-radius:999px; background:#000;
+}
+.lv-ios__meters { display:inline-flex; align-items:center; gap:6px; }
+.lv-ios__meters svg { height:11px; width:auto; display:block; }
+
+/* The browser bar floats OVER the page rather than taking a strip out of it, exactly
+   as it does on the phone: the hero runs under it and shows through the glass. */
+.lv-ios--browser {
+  position:absolute; left:0; right:0; bottom:0; z-index:1;
+  height:var(--lv-ios-browser-h); padding:var(--la-s2) var(--lv-ios-browser-pad) 0;
+  gap:var(--la-s3); justify-content:space-between; align-items:flex-start;
+  background:var(--lv-ios-bar); color:var(--la-paper);
+  -webkit-backdrop-filter:var(--lv-ios-blur); backdrop-filter:var(--lv-ios-blur);
+}
+/* The home indicator — the round thingy. Centred in the strip below the address bar,
+   in the paper ink, because it is drawn by the phone and not by the page. */
+.lv-ios__home {
+  position:absolute; left:50%; bottom:var(--la-s2); transform:translateX(-50%);
+  width:var(--lv-ios-home-w); height:var(--lv-ios-home-h);
+  border-radius:999px; background:color-mix(in oklab, var(--la-paper), transparent 15%);
+}
+.lv-ios__glyph {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:var(--lv-ios-pill-h); height:var(--lv-ios-pill-h);
+  border-radius:999px; background:var(--lv-ios-chip); flex-shrink:0;
+}
+.lv-ios__glyph svg { width:20px; height:20px; }
+.lv-ios__pill {
+  flex:1; min-width:0; height:var(--lv-ios-pill-h);
+  display:inline-flex; align-items:center; justify-content:center; gap:var(--la-s2);
+  padding:0 var(--la-s3); border-radius:999px; background:var(--lv-ios-chip);
+}
+.lv-ios__host {
+  font-family:var(--la-font); font-size:var(--lv-ios-host); font-weight:500;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.lv-ios__reader, .lv-ios__reload { width:16px; height:16px; flex-shrink:0; opacity:.75; }
+
+.lv-device:not([data-device="desktop"]) {
+  padding:var(--lv-bezel);
+  background:var(--lv-body);
+  border-radius:var(--lv-body-radius);
+  box-shadow:0 18px 50px color-mix(in oklab, var(--lv-ink), transparent 82%);
+}
+.lv-device:not([data-device="desktop"]) .lv-screen { border-radius:var(--lv-screen-radius); }
+
+/* The speaker: one short line centred in the top edge, and only where there is a
+   body to hold it. It is the whole difference between a rounded rectangle and a
+   phone, which is why it is the only detail here. */
+.lv-device__speaker { display:none; }
+.lv-device:not([data-device="desktop"]) .lv-device__speaker {
+  display:block; position:absolute; left:50%; transform:translateX(-50%);
+  top:calc((var(--lv-bezel) - var(--lv-speaker-h)) / 2);
+  width:var(--lv-speaker-w); height:var(--lv-speaker-h);
+  border-radius:999px;
+  background:color-mix(in oklab, var(--la-paper), var(--lv-body) 60%);
+}
+
+/* Nothing loaded yet, or the list could not be read: the bar says so instead of
+   silently framing nothing. */
+.lv-msg { padding:var(--la-s5); color:var(--lv-ink); font-family:var(--lv-font-display); }
+
+/* Narrow host: the bar wraps rather than shrinking its controls. The builder scales
+   its toolbar with zoom because it owns its width; an embed does not, and a scaled-down
+   bar inside someone else's page reads as broken. */
+@media (max-width: 620px) {
+  .lv-bar { height:auto; flex-wrap:wrap; justify-content:flex-start;
+            gap:var(--la-s2); padding:var(--la-s2) var(--la-s3); }
+}
+
+/* The mark in the admin bar: a plain wordmark in the kit's ink. It is not the coral
+   pill from the viewer — admin is a tool, not a page anyone is being sold to. */
+.lv-logo { display:inline-flex; align-items:center; color:var(--la-ink); flex-shrink:0; }
+.lv-logo svg { height:var(--lv-logo-h); width:auto; display:block; }
+
+/* ============================================================
+   ADMIN — the same kit, list-shaped. admin.html only.
+   ============================================================ */
+.lv-admin { flex:1; min-height:0; overflow:auto; padding:var(--la-s5); background:var(--la-bg); }
+.lv-admin__inner { max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:var(--la-s4); }
+
+.la-input {
+  font-family:var(--la-font); font-size:var(--la-text-field); color:var(--la-ink);
+  background:var(--la-paper); border:var(--la-frame) solid var(--la-line);
+  border-radius:var(--la-radius); padding:var(--la-pad-input); min-height:var(--la-control-h);
+  width:100%;
+}
+.la-input::placeholder { color:var(--la-placeholder); }
+.la-input:focus { outline:none; border-color:var(--la-teal); }
+
+.lv-card { background:var(--la-paper); border:var(--la-frame) solid var(--la-line);
+           border-radius:var(--la-radius); padding:var(--la-s3); display:flex; gap:var(--la-s3);
+           align-items:flex-start; }
+.lv-card[data-hidden="true"] { opacity:var(--la-disabled-fade); }
+.lv-card__fields { flex:1; min-width:0; display:grid; grid-template-columns:1fr 1fr; gap:var(--la-s2); }
+.lv-card__fields .lv-span { grid-column:1 / -1; }
+.lv-card__acts { display:flex; flex-direction:column; gap:var(--la-s1); flex-shrink:0; }
+.lv-label { font-family:var(--la-font); font-size:var(--la-text-label); font-weight:var(--la-weight);
+            text-transform:uppercase; letter-spacing:var(--la-track-label); color:var(--la-muted);
+            display:flex; flex-direction:column; gap:var(--la-s1); min-width:0; }
+.lv-err { color:var(--la-coral); text-transform:none; letter-spacing:0; }
+@media (max-width: 700px) { .lv-card__fields { grid-template-columns:1fr; } }

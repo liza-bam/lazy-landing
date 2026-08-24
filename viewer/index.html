@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lazy — site viewer</title>
+<link rel="stylesheet" href="./css/viewer.css">
+</head>
+<!--
+  THE EDITOR WITHOUT THE EDITOR. One strip, then the site.
+
+  What the builder's preview toolbar does, dressed as the marketing page: the mark
+  is the way back to lazy.vacations, the arrows walk the list, and the device row
+  and scale switch are the builder's own controls with the button chrome taken off
+  — coloured marks, nothing boxed.
+
+  The sites themselves are already deployed and static, so nothing here renders a
+  site; it frames one. This page is itself served inside an iframe on the marketing
+  site, which is why the strip is one row and the link out carries target="_top".
+-->
+<body>
+
+<div class="la-preview">
+  <div class="lv-bar">
+
+    <!-- LEFT: the mark (which is the button), and the walk through the sites. -->
+    <div class="lv-group">
+      <a class="lv-brand" id="lv-brand" href="https://lazy.vacations" target="_top" rel="noopener"
+         aria-label="Lazy — lazy.vacations" title="lazy.vacations"></a>
+
+      <button class="lv-icon" id="lv-prev" onclick="LVViewer.step(-1)" aria-label="Previous site" title="Previous site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 4 7 12 15 20"></polyline></svg></button>
+      <span class="lv-name" id="lv-name">Loading…</span>
+      <button class="lv-icon" id="lv-next" onclick="LVViewer.step(1)" aria-label="Next site" title="Next site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 4 17 12 9 20"></polyline></svg></button>
+    </div>
+
+    <!-- RIGHT: how you are looking at it. Three widths — a screen, a slate and a
+         handset, which differ by outline alone and so need no word — then one switch
+         for real size. -->
+    <div class="lv-group">
+      <button class="lv-icon" id="lv-dev-desktop" onclick="LVViewer.setDevice('desktop')" aria-pressed="true" aria-label="Desktop width" title="Desktop width"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg></button>
+      <button class="lv-icon" id="lv-dev-tablet" onclick="LVViewer.setDevice('tablet')" aria-pressed="false" aria-label="Tablet width" title="Tablet width"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"></rect><path d="M11 18h2"></path></svg></button>
+      <button class="lv-icon" id="lv-dev-phone" onclick="LVViewer.setDevice('phone')" aria-pressed="false" aria-label="Phone width" title="Phone width"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"></rect><path d="M11 18h2"></path></svg></button>
+
+      <button class="lv-switch" id="lv-scale" role="switch" aria-checked="false"
+              onclick="LVViewer.toggleFit()" title="Show the site at its real size instead of fitting it to the space">
+        <span class="lv-switch__track"><span class="lv-switch__knob"></span></span>
+        <span class="lv-switch__label">100%</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Nothing is painted behind the site. At a phone or tablet width the site sits in
+       a device shell — a handset is how the visitor will actually hold this page, and a
+       390px column floating in space does not say that. Desktop gets no shell: a desktop
+       IS the window you are already looking through. -->
+  <div class="lv-surf" id="lv-surf" data-scale="fit">
+    <!-- THE GROUND BEHIND THE DEVICE. A second copy of the same site, blurred past
+         reading and veiled, so the space around a phone is the site's own colour and
+         light rather than a flat panel. It has to be a second COPY: the framed page is
+         another origin, so its pixels cannot be sampled, captured or reused — the only
+         way to show it blurred is to render it again.
+
+         It costs one extra load of the site. Inert in every sense that matters: no
+         pointer events, no tab stop, hidden from assistive technology. Desktop drops
+         it entirely — nothing shows around a frame that fills the space. -->
+    <iframe class="lv-bg" id="lv-bg" aria-hidden="true" tabindex="-1" title="" loading="lazy"></iframe>
+    <span class="lv-veil" aria-hidden="true"></span>
+
+    <div class="lv-device" id="lv-device" data-device="desktop">
+      <span class="lv-device__speaker" aria-hidden="true"></span>
+      <!-- The screen clips. A framed page draws its own scrollbar and we cannot reach
+           into another origin to style it away, so the screen is exactly the device's
+           width and the frame inside it is that width PLUS one scrollbar — the bar is
+           cropped, and the site still lays out at the real device width because a
+           classic scrollbar is outside the layout viewport. -->
+      <div class="lv-screen" id="lv-screen">
+        <!-- THE HANDSET'S OWN UI. A phone is not a rectangle of website: it is a status
+             bar, a page, and a browser bar, and a visitor recognises their own phone by
+             those two strips before they read a word. Decorative to the letter — none of
+             it is a control, all of it is hidden from assistive technology, and the only
+             live values are the clock and the address, which are true. -->
+        <div class="lv-ios lv-ios--status" id="lv-status" aria-hidden="true">
+          <span class="lv-ios__island"></span>
+          <span class="lv-ios__time" id="lv-time"></span>
+          <span class="lv-ios__meters">
+            <svg viewBox="0 0 20 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"></rect><rect x="5" y="5.5" width="3" height="6.5" rx="1"></rect><rect x="10" y="3" width="3" height="9" rx="1"></rect><rect x="15" y="0" width="3" height="12" rx="1" opacity=".35"></rect></svg>
+            <svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M1 4.2a10 10 0 0 1 14 0"></path><path d="M3.6 7a6.4 6.4 0 0 1 8.8 0"></path><circle cx="8" cy="10" r="1.1" fill="currentColor" stroke="none"></circle></svg>
+            <svg viewBox="0 0 26 12" fill="none"><rect x="0.6" y="0.6" width="21" height="10.8" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".45"></rect><rect x="2.2" y="2.2" width="14" height="7.6" rx="1.8" fill="currentColor"></rect><path d="M23.4 4.2v3.6a2.4 2.4 0 0 0 0-3.6z" fill="currentColor" opacity=".45"></path></svg>
+          </span>
+        </div>
+
+        <iframe class="lv-frame" id="lv-frame" title="Site preview" loading="lazy"></iframe>
+
+        <div class="lv-ios lv-ios--browser" aria-hidden="true">
+          <span class="lv-ios__glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 5 8 12 15 19"></polyline></svg></span>
+          <span class="lv-ios__pill">
+            <svg class="lv-ios__reader" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h10M4 12h10M4 18h7"></path><path d="M18 5v14"></path></svg>
+            <span class="lv-ios__host" id="lv-host"></span>
+            <svg class="lv-ios__reload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"></path><polyline points="20 4 20 9 15 9"></polyline></svg>
+          </span>
+          <span class="lv-ios__glyph"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle></svg></span>
+          <span class="lv-ios__home"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="./js/sites.js"></script>
+<script src="./js/viewer.js"></script>
+</body>
+</html>
